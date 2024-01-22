@@ -9,11 +9,14 @@ def run_python_script(request):
   try:
     base_dir = settings.BASE_DIR
     project_script_path = os.path.join(base_dir, 'project.py')
-    subprocess.check_output(['python', project_script_path, '-d', 'vvitguntur.com', '--all'], text=True)
+    domain = 'vvitguntur.com'
+    subprocess.check_output(['python', project_script_path, '-d', domain, '--all'], text=True)
 
   
-    with open(f'{base_dir}/outputs/vvitguntur.com.txt', 'r') as file:
-      result = file.read()
+    with open(f'{base_dir}/outputs/{domain}.txt', 'r', encoding='utf8') as file:
+      result = ''
+      for line in file:
+        result += line.strip() + '\n'
     return JsonResponse({'result': result})
   
   except FileNotFoundError:
@@ -21,3 +24,4 @@ def run_python_script(request):
   
   except Exception as e:
     return JsonResponse({'error': str(e)}, status=500)
+  
