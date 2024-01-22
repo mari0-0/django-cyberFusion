@@ -10,10 +10,10 @@ def run_python_script(request):
     base_dir = settings.BASE_DIR
     project_script_path = os.path.join(base_dir, 'project.py')
     domain = 'vvitguntur.com'
-    subprocess.check_output(['py', project_script_path, '-d', domain, '--all'], text=True)
+    subprocess.check_output(['python', project_script_path, '-d', domain, '--all'], text=True)
 
   
-    with open(f'{base_dir}/outputs/{domain}.txt', 'r', encoding='utf8') as file:
+    with open(os.path.join(base_dir, 'outputs','{domain}.txt'), 'r', encoding='utf8') as file:
       result = ''
       for line in file:
         result += line.strip() + '\n'
