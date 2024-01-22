@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+import os
+from django.conf import settings
 import subprocess
 
 
 def run_python_script(request):
   try:
-    subprocess.check_output(['python', 'project.py', '-d', 'vvitguntur.com', '--all'], text=True)
+    base_dir = settings.BASE_DIR
+    project_script_path = os.path.join(base_dir, 'project.py')
+    subprocess.check_output(['python', project_script_path, '-d', 'vvitguntur.com', '--all'], text=True)
+
   
-    with open(f'outputs/vvitguntur.com.txt', 'r') as file:
+    with open(f'{base_dir}/outputs/vvitguntur.com.txt', 'r') as file:
       result = file.read()
     return JsonResponse({'result': result})
   
